@@ -14,6 +14,31 @@ from collections import defaultdict
 """
 For prepare_heatmap
 """
+
+from matplotlib import pyplot as plt
+
+def draw_bounding_boxes(image_path, boxes):
+    # 画像を読み込む
+    image = cv2.imread(image_path)
+
+    # 画像が正しく読み込まれたかチェック
+    if image is None:
+        print(f"画像を読み込めませんでした: {image_path}")
+        return
+
+    # BGRからRGBに変換
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    # バウンディングボックスを描画
+    for box in boxes:
+        x_min, y_min, x_max, y_max = box
+        image = cv2.rectangle(image, (x_min, y_min), (x_max, y_max), (255, 0, 0), 7)
+
+    # 画像を表示
+    plt.imshow(image)
+    plt.axis('off')
+    plt.show()
+    
 def xml_to_df(anotated_dir):
     xml_list = []
     file_list = os.listdir(anotated_dir)
